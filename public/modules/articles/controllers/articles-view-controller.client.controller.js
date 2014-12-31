@@ -3,18 +3,7 @@ void (function() {
 	'use strict'
 
 	angular.module('articles')
-		.directive('viewArticle', viewArticle)
 		.controller('ArticlesViewController', ArticlesViewController)
-
-	function viewArticle() {
-		return {
-			restrict: 'E',
-			scope: {},
-			templateUrl: 'modules/articles/views/view-article.client.view.html',
-			controller: 'ArticlesViewController',
-			controllerAs: 'ctrl'
-		}
-	}
 
 	ArticlesViewController.$inject = ['$location', 'Authentication', 'crudArticles']
 	function ArticlesViewController($location, Authentication, crudArticles) {

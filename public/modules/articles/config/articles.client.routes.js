@@ -9,23 +9,39 @@ void (function() {
 	routeConfig.$inject = ['$stateProvider']
 	function routeConfig($stateProvider) {
 		// Articles state routing
-		$stateProvider.
-		state('listArticles', {
-			url: '/articles',
-			template: '<list-articles></list-articles>'
-		}).
-		state('createArticle', {
-			url: '/articles/create',
-			template: '<create-article></create-article>'
-		}).
-		state('viewArticle', {
-			url: '/articles/:articleId',
-			template: '<view-article></view-article>'
-		}).
-		state('editArticle', {
-			url: '/articles/:articleId/edit',
-			template: '<edit-article></edit-article>'
-		})
+		$stateProvider
+			.state('listArticles', {
+				url: '/articles',
+				templateUrl: 'modules/articles/views/list-articles.client.view.html',
+				controller: 'ArticlesListController',
+				controllerAs: 'ctrl',
+				resolve: {
+					listArticles: listArticles
+				}
+			})
+			.state('createArticle', {
+				url: '/articles/create',
+				templateUrl: 'modules/articles/views/create-article.client.view.html',
+				controller: 'ArticlesCreateController',
+				controllerAs: 'ctrl'
+			})
+			.state('viewArticle', {
+				url: '/articles/:articleId',
+				templateUrl: 'modules/articles/views/view-article.client.view.html',
+				controller: 'ArticlesViewController',
+				controllerAs: 'ctrl'
+			})
+			.state('editArticle', {
+				url: '/articles/:articleId/edit',
+				templateUrl: 'modules/articles/views/edit-article.client.view.html',
+				controller: 'ArticlesEditController',
+				controllerAs: 'ctrl'
+			})
+	}
+
+	listArticles.$inject = ['crudArticles']
+	function listArticles(crudArticles) {
+		return crudArticles.getArticles()
 	}
 
 })()
