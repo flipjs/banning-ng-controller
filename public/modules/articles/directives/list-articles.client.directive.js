@@ -16,17 +16,13 @@ void (function() {
 		}
 	}
 
-	ArticlesListController.$inject = ['$location', 'Authentication', 'Articles']
-	function ArticlesListController($location, Authentication, Articles) {
+	ArticlesListController.$inject = ['$location', 'Authentication', 'crudArticles']
+	function ArticlesListController($location, Authentication, crudArticles) {
 
 		var self = this
 
-		self.articles = []
+        self.articles = crudArticles.getArticles()
 		self.authentication = Authentication
-
-		self.find = function() {
-			self.articles = Articles.query()
-		}
 
 	}
 

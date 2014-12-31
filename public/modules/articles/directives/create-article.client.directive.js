@@ -16,29 +16,34 @@ void (function() {
 		}
 	}
 
-	ArticlesCreateController.$inject = ['$location', 'Authentication', 'Articles']
-	function ArticlesCreateController($location, Authentication, Articles) {
+	ArticlesCreateController.$inject = ['$location', 'Authentication', 'crudArticles']
+	function ArticlesCreateController($location, Authentication, crudArticles) {
 
 		var self = this
 
-		self.article = {}
+        self.article = {}
 		self.authentication = Authentication
+        self.create = create
 
-		self.create = function() {
-			var article = new Articles({
-				title: self.article.title,
-				content: self.article.content
-			})
-			article.$save(function(response) {
-				$location.path('articles/' + response._id)
-
-				self.article.title = ''
-				self.article.content = ''
-
-			}, function(errorResponse) {
-				self.error = errorResponse.data.message
-			})
+		function create() {
+            crudArticles
+                .createArticle(self.article)
+                .then(success, error)
 		}
+
+        function success(articleId) {
+            $location.path('articles/' + articleId)
+            cleanUp()
+        }
+        
+        function error(errorMessage) {
+            self.error = errorMessage
+        }
+
+        function cleanUp() {
+            self.article.title = ''
+            self.article.content = ''
+        }
 	}
 
 })()

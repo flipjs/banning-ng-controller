@@ -16,30 +16,28 @@ void (function() {
 		}
 	}
 
-	ArticlesEditController.$inject = ['$stateParams', '$location', 'Authentication', 'Articles']
-	function ArticlesEditController($stateParams, $location, Authentication, Articles) {
+	ArticlesEditController.$inject = ['$location', 'Authentication', 'crudArticles']
+	function ArticlesEditController($location, Authentication, crudArticles) {
 
 		var self = this
 
-		self.article = {}
+        self.article = crudArticles.getArticle()
 		self.authentication = Authentication
+        self.update = update
 
-		self.update = function() {
-			var article = self.article
-
-			article.$update(function() {
-				$location.path('articles/' + article._id)
-			}, function(errorResponse) {
-				self.error = errorResponse.data.message
-			})
+		function update() {
+            crudArticles
+                .updateArticle(self.article)
+                .then(success, error)
 		}
 
-		self.findOne = function() {
-			self.article = Articles.get({
-				articleId: $stateParams.articleId
-			})
-		}
-
+        function success(articleId) {
+            $location.path('articles/' + articleId)
+        }
+        
+        function error(errorMessage) {
+            self.error = errorMessage
+        }
 	}
 
 })()

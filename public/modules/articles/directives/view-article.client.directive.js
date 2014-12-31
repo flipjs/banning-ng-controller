@@ -16,25 +16,28 @@ void (function() {
 		}
 	}
 
-	ArticlesViewController.$inject = ['$stateParams', '$location', 'Authentication', 'Articles']
-	function ArticlesViewController($stateParams, $location, Authentication, Articles) {
+	ArticlesViewController.$inject = ['$location', 'Authentication', 'crudArticles']
+	function ArticlesViewController($location, Authentication, crudArticles) {
 
 		var self = this
 
-		self.article = {}
+        self.article = crudArticles.getArticle()
 		self.authentication = Authentication
+        self.remove = remove
 
-		self.remove = function(article) {
-			article ? article.$remove() : self.article.$remove()
-			$location.path('articles')
+		function remove() {
+            crudArticles
+                .removeArticle(self.article)
+                .then(success, error)
 		}
 
-		self.findOne = function() {
-			self.article = Articles.get({
-				articleId: $stateParams.articleId
-			})
-		}
-
+        function success() {
+            $location.path('articles')
+        }
+        
+        function error(errorMessage) {
+            self.error = errorMessage
+        }
 	}
 
 })()
