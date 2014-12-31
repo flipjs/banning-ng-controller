@@ -4,7 +4,7 @@
 
 void (function(angular) {
   
-	'use strict';
+	'use strict'
 
 	angular.module('articles')
 		.controller('ArticlesController', ArticlesController)

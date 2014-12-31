@@ -1,12 +1,12 @@
 void (function(angular) {
   
-	'use strict';
+	'use strict'
 
 	angular.module('articles')
-        .factory('crudArticles', articlesCrud)
+        .factory('crudArticles', crudArticles)
 
-	articlesCrud.$inject = ['$stateParams', '$q', 'Articles']
-	function articlesCrud($stateParams, $q, Articles) {
+	crudArticles.$inject = ['$stateParams', '$q', 'Articles']
+	function crudArticles($stateParams, $q, Articles) {
 
         var service = {
             createArticle : createArticle,
@@ -19,23 +19,15 @@ void (function(angular) {
 
         // function declarations
 
-		function createArticle(article) {
-            var defer = $q.defer(),
-                data = newArticle(article)
-
-			data.$save(function(response) {
-                defer.resolve(response._id)
-			}, function(errorResponse) {
-                defer.reject(errorResponse.data.message)
-			})
-
-            return defer.promise
+		function createArticle(newArticle) {
+            var article = newArticleInstance(newArticle)
+            return operation(article, '$save')
 		}
 
-        function newArticle(article) {
+        function newArticleInstance(newArticle) {
             return new Articles({
-                title: article.title,
-                content: article.content
+                title: newArticle.title,
+                content: newArticle.content
             })
         }
 
@@ -50,28 +42,24 @@ void (function(angular) {
 		}
 
 		function removeArticle(article) {
-            var defer = $q.defer()
-
-			article.$remove(function(response) {
-                defer.resolve(response._id)
-			}, function(errorResponse) {
-                defer.reject(errorResponse.data.message)
-			})
-
-            return defer.promise
+            return operation(article, '$remove')
 		}
 
 		function updateArticle(article) {
+            return operation(article, '$update')
+		}
+
+        function operation(data, crud) {
             var defer = $q.defer()
 
-			article.$update(function(response) {
+            data[crud](function(response) {
                 defer.resolve(response._id)
-			}, function(errorResponse) {
+            }, function(errorResponse) {
                 defer.reject(errorResponse.data.message)
-			})
+            })
 
             return defer.promise
-		}
+        }
 	}
 
 })(angular)

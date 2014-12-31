@@ -1,6 +1,6 @@
 void (function() {
 
-	'use strict';
+	'use strict'
 
 	angular.module('articles')
 		.directive('listArticles', listArticles)

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 //Articles service used for communicating with the articles REST endpoints
 angular.module('articles').factory('Articles', ['$resource',
@@ -9,6 +9,6 @@ angular.module('articles').factory('Articles', ['$resource',
 			update: {
 				method: 'PUT'
 			}
-		});
+		})
 	}
-]);
+])

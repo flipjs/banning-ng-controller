@@ -1,6 +1,5 @@
-'use strict';
-
-(function() {
+void (function() {
+  'use strict'
 	// Articles Controller Spec
 	describe('ArticlesController', function() {
 		// Initialize global variables
