@@ -1,2 +1,3 @@
-## Using ngDirective paired with a controller
-Other option is using router with controller defined (see other branch).
+## Define controller in router configuration
+One benefit of using router is you can define resolve. Resolved data can then
+be injected to the controller.
