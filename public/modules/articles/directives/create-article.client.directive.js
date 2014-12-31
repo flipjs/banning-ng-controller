@@ -21,29 +21,29 @@ void (function() {
 
 		var self = this
 
-        self.article = {}
+		self.article = {}
 		self.authentication = Authentication
-        self.create = create
+		self.create = create
 
 		function create() {
-            crudArticles
-                .createArticle(self.article)
-                .then(success, error)
+			crudArticles
+				.createArticle(self.article)
+				.then(success, error)
 		}
 
-        function success(articleId) {
-            $location.path('articles/' + articleId)
-            cleanUp()
-        }
-        
-        function error(errorMessage) {
-            self.error = errorMessage
-        }
+		function success(articleId) {
+			$location.path('articles/' + articleId)
+			cleanUp()
+		}
+		
+		function error(errorMessage) {
+			self.error = errorMessage
+		}
 
-        function cleanUp() {
-            self.article.title = ''
-            self.article.content = ''
-        }
+		function cleanUp() {
+			self.article.title = ''
+			self.article.content = ''
+		}
 	}
 
 })()

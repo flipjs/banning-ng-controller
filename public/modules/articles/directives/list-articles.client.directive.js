@@ -21,11 +21,10 @@ void (function() {
 
 		var self = this
 
-        self.articles = crudArticles.getArticles()
+		self.articles = crudArticles.getArticles()
 		self.authentication = Authentication
 
 	}
 
 })()
-
 

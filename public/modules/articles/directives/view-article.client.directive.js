@@ -21,25 +21,24 @@ void (function() {
 
 		var self = this
 
-        self.article = crudArticles.getArticle()
+		self.article = crudArticles.getArticle()
 		self.authentication = Authentication
-        self.remove = remove
+		self.remove = remove
 
 		function remove() {
-            crudArticles
-                .removeArticle(self.article)
-                .then(success, error)
+			crudArticles
+				.removeArticle(self.article)
+				.then(success, error)
 		}
 
-        function success() {
-            $location.path('articles')
-        }
-        
-        function error(errorMessage) {
-            self.error = errorMessage
-        }
+		function success() {
+			$location.path('articles')
+		}
+		
+		function error(errorMessage) {
+			self.error = errorMessage
+		}
 	}
 
 })()
-
 
