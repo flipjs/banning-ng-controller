@@ -5,12 +5,13 @@ void (function() {
 	angular.module('articles')
 		.controller('ArticlesListController', ArticlesListController)
 
-	ArticlesListController.$inject = ['Authentication', 'listArticles']
-	function ArticlesListController(Authentication, listArticles) {
+	// list is from router resolve
+	ArticlesListController.$inject = ['Authentication', 'list']
+	function ArticlesListController(Authentication, list) {
 
 		var self = this
 
-		self.articles = listArticles
+		self.articles = list
 		self.authentication = Authentication
 	}
 
