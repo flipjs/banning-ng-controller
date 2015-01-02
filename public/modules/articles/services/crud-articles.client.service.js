@@ -35,9 +35,9 @@ void (function(angular) {
 			return Articles.query()
 		}
 
-		function getArticle() {
+		function getArticle(articleId) {
 			return Articles.get({
-				articleId: $stateParams.articleId
+				articleId: articleId
 			})
 		}
 

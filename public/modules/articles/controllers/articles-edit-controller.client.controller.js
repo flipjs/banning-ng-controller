@@ -5,12 +5,12 @@ void (function() {
 	angular.module('articles')
 		.controller('ArticlesEditController', ArticlesEditController)
 
-	ArticlesEditController.$inject = ['$location', 'Authentication', 'crudArticles']
-	function ArticlesEditController($location, Authentication, crudArticles) {
+	ArticlesEditController.$inject = ['$location', 'Authentication', 'crudArticles', 'article']
+	function ArticlesEditController($location, Authentication, crudArticles, article) {
 
 		var self = this
 
-		self.article = crudArticles.getArticle()
+		self.article = article
 		self.authentication = Authentication
 		self.update = update
 
