@@ -22,12 +22,12 @@ void (function() {
 		controller: 'ArticlesListController',
 		controllerAs: 'ctrl',
 		resolve: {
-			list: function list(crudArticles) {
-				return crudArticles.getArticles()
+			articles: 'crudArticles',
+			list: function list(articles) {
+				return articles.getArticles()
 			}
 		}
 	}
-	routeConfig.listArticles.resolve.list.$inject = ['crudArticles']
 
 	routeConfig.createArticle = {
 		url: '/articles/create',
