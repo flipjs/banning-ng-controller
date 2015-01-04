@@ -4,10 +4,9 @@
 	// Articles list controller Controller Spec
 	describe('Articles list controller Controller Tests', function() {
 		// Initialize global variables
-		var ArticlesListControllerController,
-			scope,
+		var ArticlesListController,
+			list,
 			$httpBackend,
-			$stateParams,
 			$location;
 
 		// The $resource service augments the response object with methods for updating and deleting the resource.
@@ -35,24 +34,35 @@
 		// The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
 		// This allows us to inject a service but then attach it to a variable
 		// with the same name as the service.
-		beforeEach(inject(function($controller, $rootScope, _$location_, _$stateParams_, _$httpBackend_) {
-			// Set a new global scope
-			scope = $rootScope.$new();
+		beforeEach(inject(function($controller, _$location_, _$httpBackend_) {
 
 			// Point global variables to injected services
-			$stateParams = _$stateParams_;
 			$httpBackend = _$httpBackend_;
 			$location = _$location_;
 
 			// Initialize the Articles list controller controller.
-			ArticlesListControllerController = $controller('ArticlesListControllerController', {
-				$scope: scope
+			ArticlesListController = $controller('ArticlesListController', {
+				list: list
 			});
 		}));
 
-		it('Should do some controller test', inject(function() {
-			// The test logic
-			// ...
-		}));
+		it('ArticlesListController should create an array with at least one article object fetched from XHR', inject(function(Articles, crudArticles) {
+			// Create sample article using the Articles service
+			var sampleArticle = new Articles({
+				title: 'An Article about MEAN',
+				content: 'MEAN rocks!'
+			})
+
+			// Create a sample articles array that includes the new article
+			var sampleArticles = [sampleArticle]
+
+			// Set GET response
+			$httpBackend.expectGET('articles').respond(sampleArticles)
+			ArticlesListController.articles = crudArticles.getArticles()
+			$httpBackend.flush()
+
+			// Test scope value
+			expect(ArticlesListController.articles).toEqualData(sampleArticles)
+		}))
 	});
 }());
