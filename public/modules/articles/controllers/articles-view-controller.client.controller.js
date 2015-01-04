@@ -5,8 +5,8 @@ void (function() {
 	angular.module('articles')
 		.controller('ArticlesViewController', ArticlesViewController)
 
-	ArticlesViewController.$inject = ['$location', 'Authentication', 'crudArticles', 'article']
-	function ArticlesViewController($location, Authentication, crudArticles, article) {
+	ArticlesViewController.$inject = ['$location', 'Authentication', 'article']
+	function ArticlesViewController($location, Authentication, article) {
 
 		var self = this
 
@@ -15,17 +15,20 @@ void (function() {
 		self.remove = remove
 
 		function remove() {
-			crudArticles
-				.removeArticle(self.article)
-				.then(success, error)
+			removeArticle().then(success, error)
 		}
 
 		function success() {
 			$location.path('articles')
 		}
 		
-		function error(errorMessage) {
-			self.error = errorMessage
+		function error(errorResponse) {
+			self.error = errorResponse.data.message
+		}
+
+		function removeArticle() {
+			var article = self.article
+			return article.$remove()
 		}
 	}
 

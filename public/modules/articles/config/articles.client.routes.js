@@ -16,10 +16,15 @@ void (function() {
 			.state('editArticle', routeConfig.editArticle)
 	}
 
-	routeConfig.getArticle = function($stateParams, crudArticles) {
-		return crudArticles.getArticle($stateParams.articleId)
+	routeConfig.resolveArticle = {
+		$stateParams: '$stateParams',
+		Articles: 'Articles',
+		article: function article($stateParams, Articles) {
+			return Articles.get({
+				articleId: $stateParams.articleId
+			}).$promise
+		}
 	}
-	routeConfig.getArticle.$inject = ['$stateParams', 'crudArticles']
 
 	routeConfig.listArticles = {
 		url: '/articles',
@@ -27,9 +32,9 @@ void (function() {
 		controller: 'ArticlesListController',
 		controllerAs: 'ctrl',
 		resolve: {
-			articles: 'crudArticles',
-			list: function list(articles) {
-				return articles.getArticles()
+			Articles: 'Articles',
+			articles: function articles(Articles) {
+				return Articles.query().$promise
 			}
 		}
 	}
@@ -46,9 +51,7 @@ void (function() {
 		templateUrl: 'modules/articles/views/view-article.client.view.html',
 		controller: 'ArticlesViewController',
 		controllerAs: 'ctrl',
-		resolve: {
-			article: routeConfig.getArticle
-		}
+		resolve: routeConfig.resolveArticle
 	}
 
 	routeConfig.editArticle = {
@@ -56,9 +59,7 @@ void (function() {
 		templateUrl: 'modules/articles/views/edit-article.client.view.html',
 		controller: 'ArticlesEditController',
 		controllerAs: 'ctrl',
-		resolve: {
-			article: routeConfig.getArticle
-		}
+		resolve: routeConfig.resolveArticle
 	}
 
 })()

@@ -5,7 +5,7 @@
 	describe('Articles list controller Controller Tests', function() {
 		// Initialize global variables
 		var ArticlesListController,
-			list,
+			articles,
 			$httpBackend,
 			$location;
 
@@ -42,7 +42,7 @@
 
 			// Initialize the Articles list controller controller.
 			ArticlesListController = $controller('ArticlesListController', {
-				list: list
+				articles: articles
 			});
 		}));
 

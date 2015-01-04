@@ -5,8 +5,8 @@ void (function() {
 	angular.module('articles')
 		.controller('ArticlesCreateController', ArticlesCreateController)
 
-	ArticlesCreateController.$inject = ['$location', 'Authentication', 'crudArticles']
-	function ArticlesCreateController($location, Authentication, crudArticles) {
+	ArticlesCreateController.$inject = ['$location', 'Authentication', 'Articles']
+	function ArticlesCreateController($location, Authentication, Articles) {
 
 		var self = this
 
@@ -15,25 +15,32 @@ void (function() {
 		self.create = create
 
 		function create() {
-			crudArticles
-				.createArticle(self.article)
-				.then(success, error)
+			createArticle().then(success, error)
 		}
 
-		function success(articleId) {
-			$location.path('articles/' + articleId)
+		function success(response) {
 			cleanUp()
+			$location.path('articles/' + response._id)
 		}
 		
-		function error(errorMessage) {
-			self.error = errorMessage
+		function error(errorResponse) {
+			self.error = errorResponse.data.message
 		}
 
 		function cleanUp() {
 			self.article.title = ''
 			self.article.content = ''
 		}
+
+		function createArticle() {
+			var article = new Articles({
+				title: self.article.title,
+				content: self.article.content
+			})
+			return article.$save()
+		}
 	}
+
 
 })()
 

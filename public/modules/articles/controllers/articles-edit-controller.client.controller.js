@@ -5,8 +5,8 @@ void (function() {
 	angular.module('articles')
 		.controller('ArticlesEditController', ArticlesEditController)
 
-	ArticlesEditController.$inject = ['$location', 'Authentication', 'crudArticles', 'article']
-	function ArticlesEditController($location, Authentication, crudArticles, article) {
+	ArticlesEditController.$inject = ['$location', 'Authentication', 'article']
+	function ArticlesEditController($location, Authentication, article) {
 
 		var self = this
 
@@ -15,17 +15,20 @@ void (function() {
 		self.update = update
 
 		function update() {
-			crudArticles
-				.updateArticle(self.article)
-				.then(success, error)
+			updateArticle().then(success, error)
 		}
 
-		function success(articleId) {
-			$location.path('articles/' + articleId)
+		function success(response) {
+			$location.path('articles/' + response._id)
 		}
 		
-		function error(errorMessage) {
-			self.error = errorMessage
+		function error(errorResponse) {
+			self.error = errorResponse.data.message
+		}
+
+		function updateArticle() {
+			var article = self.article
+			return article.$update()
 		}
 	}
 
